@@ -40,6 +40,7 @@ alias pbpaste='xsel --clipboard --output'
 # Touchpad
 synclient TapButton2=3 TapButton3=0
 
+alias sum="awk '{s+=\$1} END {printf \"%.0f\", s}'"
 
 ##############################
 ###         Scan           ###
