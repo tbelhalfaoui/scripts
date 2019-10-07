@@ -15,11 +15,13 @@ alias grc='git rebase --continue'
 alias gp='git push'
 alias gsh='git stash'
 alias gf='git fetch'
+alias gl='git log'
 
 parse_git_branch() {
      git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/ (\1)/'
 }
 export PS1="\[\033[32m\]\u@\h \[\033[94m\]\w\[\033[33m\]\$(parse_git_branch)\[\033[00m\] $ "
+
 
 #############################
 ###          Misc         ###
@@ -31,7 +33,6 @@ function grepkill {
 
 # Files
 alias open=xdg-open
-alias rm=trash-put
 
 # Copy & paste 
 alias pbcopy='xsel --clipboard --input'
@@ -40,7 +41,14 @@ alias pbpaste='xsel --clipboard --output'
 # Touchpad
 synclient TapButton2=3 TapButton3=0
 
-alias sum="awk '{s+=\$1} END {printf \"%.0f\", s}'"
+function youtube-dl-audio {
+	youtube-dl $1 -o tmp
+	ffmpeg -y -i tmp.* -vn $2
+	rm tmp.*
+}
+
+# Sum
+alias sum='python -c "import sys; print(sum(float(l) for l in sys.stdin))"'
 
 ##############################
 ###         Scan           ###
@@ -75,3 +83,8 @@ function scan {
 		((i++))
 	done
 }
+
+# MISC
+
+# Export darktables selected images
+alias dtexport='sqlite3 ~/.config/darktable/library.db "select filename from images as i join selected_images as s on s.imgid = i.id;" | grep RW2'
